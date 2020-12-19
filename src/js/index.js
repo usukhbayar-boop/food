@@ -2,6 +2,8 @@ require('@babel/polyfill');
 
 import Axios from 'axios';
 import Search from './model/search';
+import { elements, renderLoader, clearLoader } from './view/base';
+import * as searchView from './view/searchView';
 
 /*
 * Web app state
@@ -15,7 +17,7 @@ const state = {};
 
 const controlSearch = async () => {
     // 1. Вебээс хайлтын түлхүүр үгийг гаргаж гаргаж авна
-    const query = 'pizza';
+    const query = searchView.getInput();
     
     if(query) {
     // 2. Шинээр хайлтын обьектийг үүсгэж өгнө.
@@ -23,18 +25,23 @@ const controlSearch = async () => {
 
 
     // 3. Хайлт хийхэд зориулж дэлгэцийг бэлтгэнэ
+    searchView.clearSearchQuery();
+    searchView.clearSearchResult();
+    renderLoader(elements.searchResultDiv);
 
     // 4. Хайлтыг гүйцэтгэнэ
     await state.search.doSearch();
 
     // 5. Хайлтын үр дүнг дэлгэцэнд үзүүлнэ
-    console.log(state.search.result);
+    clearLoader();
+    if(state.search.result === undefined) alert('no index...');
+    else searchView.renderRecipes(state.search.result);
     } 
 
     
 }
 
-document.querySelector('.search').addEventListener('submit', e => {
+elements.searchForm.addEventListener('submit', e => {
     e.preventDefault();
     controlSearch();
 });
