@@ -1,9 +1,11 @@
-const arr = [23, 34, 33];
+require('@babel/polyfill');
+import axios from 'axios';
 
-let myFunc = a => {
-    console.log(`too : ${a}`);
-};
+import Search from './model/search';
 
-const arr2 = [...arr, 44, 1223];
 
-myFunc(arr2[1]);
+let search = new Search('pizza');
+
+search.doSearch().then( res => {
+    console.log(res);
+} )
