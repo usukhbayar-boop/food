@@ -2,11 +2,13 @@ const path = require('path');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 
 module.exports = {
+  mode: 'development',
   entry: './src/js/index.js',
   output: {
     path: path.resolve(__dirname, 'docs'),
     filename: 'js/my-first-webpack.bundle.js'
   },
+  devtool: 'inline-source-map',
 
   devServer: {
     contentBase: './docs',
